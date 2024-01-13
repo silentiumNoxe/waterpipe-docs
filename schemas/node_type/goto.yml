@@ -1,0 +1,19 @@
+type: object
+required:
+  - process
+  - version
+  - node
+properties:
+  process:
+    type: string
+    format: UUIDv4
+    description: Process id
+    example: 4eb356fd-3c1b-49d1-95ca-26f4267439ad
+  version:
+    type: integer
+    description: Process version
+    example: 5
+  node:
+    type: string
+    description: Id of start node in target process
+    example: a12846f8-09a2-45af-9f92-2d4110a12800

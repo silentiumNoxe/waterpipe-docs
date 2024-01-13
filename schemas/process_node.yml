@@ -1,0 +1,33 @@
+type: object
+required:
+  - id
+  - type
+properties:
+  id:
+    type: string
+    format: UUIDv4
+  type:
+    type: string
+    format: package.name
+    description: This is a qualifier of node. Describe for system what logic need execute
+  title:
+    type: string
+    description: Show in editor this text on node element
+  args:
+    type: object
+    format: key-value
+    description: Node maybe require some arguments for his work
+  position:
+    type: object
+    description: Used by editor for placing node in space
+    example: { x: 0, y: 0 }
+  timeout:
+    type: integer
+    format: seconds
+    description: |
+      Timeout task in this node. 
+      If execution of task in this node will slow then after this time system will stop execution and set error "timeout"
+  next:
+    type: string
+    format: UUIDv4
+    description: Id of next node. When this node will be completed then execution go to node with this id

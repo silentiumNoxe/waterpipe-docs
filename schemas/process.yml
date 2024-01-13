@@ -1,0 +1,24 @@
+type: object
+description: process
+required:
+  - name
+  - path
+  - version
+properties:
+  id:
+    type: string
+    format: UUIDv4
+  name:
+    type: string
+    description: Name of process. Can be same with other process
+  path:
+    type: string
+    format: delimiter dot
+    description: namespace for process
+  version:
+    type: integer
+    minimum: 1
+    description: Unique value of process snapshot
+  nodes:
+    allOf:
+      - $ref: '#/components/schemas/ProcessNode'

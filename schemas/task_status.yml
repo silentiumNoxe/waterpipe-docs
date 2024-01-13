@@ -1,0 +1,35 @@
+type: object
+properties:
+  id:
+    type: string
+    format: UUIDv4
+  status:
+    type: string
+    enum: [new, progress, complete]
+  position:
+    type: object
+    description: Last position of task
+    properties:
+      process:
+        type: string
+        format: UUIDv4
+      version:
+        type: integer
+      node:
+        type: string
+        format: UUIDv4
+  created_at:
+    type: string
+    format: "0001-01-01T00:00:00.000"
+    description: timestamp of task creation
+  complete_at:
+    type: string
+    format: "0001-01-01T00:00:00.000"
+    description: timestamp of task completion
+  delta_time:
+    type: integer
+    default: 0
+    description: time execution time. Different between complete_at & created_at
+  fields:
+    type: object
+    description: any payload

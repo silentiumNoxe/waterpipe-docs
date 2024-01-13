@@ -1,0 +1,14 @@
+type: object
+required:
+  - script
+properties:
+  script:
+    type: string
+    format: base64
+    description: Any JavaScript code. Should be in base64
+    example: Y29uc29sZS5sb2coImhlbGxvIHdvcmxkIik=
+  important:
+    type: boolean
+    default: false
+    description: If set to true then agent will sync all logs of the task with master
+    example: true

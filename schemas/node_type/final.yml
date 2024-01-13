@@ -1,0 +1,7 @@
+type: object
+properties:
+  archive:
+    type: boolean
+    default: true
+    description: Set to false for disable storing task result
+    example: true

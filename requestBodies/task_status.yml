@@ -1,0 +1,12 @@
+content:
+  'application/json':
+    schema:
+      required:
+        - id
+      properties:
+        "id":
+          type: string
+          format: UUIDv4
+    examples:
+      default:
+        value: {"id": "8012195e-7ff1-49e2-89a6-1cf56241e819"}

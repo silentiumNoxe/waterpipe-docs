@@ -1,0 +1,20 @@
+type: object
+required:
+  - process_id
+  - process_version
+  - node_id
+properties:
+  process_id:
+    type: string
+    format: UUIDv4
+    description: Id of process
+  process_version:
+    type: integer
+    description: Version of process
+  node_id:
+    type: string
+    format: UUIDv4
+    description: Id of <b>start node</b> in process
+  fields:
+    type: object
+    description: Any payload. You can place there any object and this will pass to task.

@@ -1,0 +1,404 @@
+openapi: 3.0.0
+
+info:
+  title: Waterpipe
+  version: 1.0-SNAPSHOT
+  contact:
+    name: Ask me for your questions
+    email: silentium.noxe@gmail.com
+  description: |
+    Waterpipe is software which helps to you write backend solution with low-code or no-code absolutely.
+
+tags:
+  - name: api_process
+    x-displayName: Process
+    description: Work with processes
+  - name: api_custom_node
+    x-displayName: Custom node
+    description: Work with custom nodes
+  - name: api_task
+    x-displayName: Task
+    description: Work with tasks
+
+  - name: process_model
+    x-displayName: Process model
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Process" />
+  - name: process_node_model
+    x-displayName: Process node model
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/ProcessNode" />
+  - name: custom_node_model
+    x-displayName: Custom node model
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/CustomNode" />
+  - name: task_model
+    x-displayName: Task model
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Task" />
+  - name: task_status
+    x-displayName: Task status model
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/TaskStatus" />
+  - name: error_model
+    x-displayName: Error model
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Error" />
+
+  - name: introduction
+    x-displayName: Introduction
+    description: |
+      This document describe API of waterpipe. 
+      You can create different versions of process, create custom nodes and start tasks.
+
+  - name: node_types
+    x-displayName: Node types
+    description: |
+      ## waterpipe.start
+    
+      Any process must start with this node.
+      
+      Does not have arguments.
+      
+      ## waterpipe.final
+      
+      For complete status of task execution should arrive to final node. 
+      
+      Otherwise the task will stay in **progress** status
+      
+      <SchemaDefinition schemaRef="#/components/schemas/NodeFinal" />
+      
+      ## waterpipe.code
+      
+      Execute any JavaScript code.
+      
+      I advise you not to use it for simple set of parameter into task because V8 takes more time then builtin nodes.
+      
+      <SchemaDefinition schemaRef="#/components/schemas/NodeCode" />
+      
+      ## waterpipe.condition
+      
+      "if-then" node. Compares two values and if got result true the task will go to the next node which specified in route argument
+      
+      The compare works same as in JavaScript
+      
+      <SchemaDefinition schemaRef="#/components/schemas/NodeCondition" />
+      
+      ## waterpipe.set
+      
+      Set any value to field
+      
+      <SchemaDefinition schemaRef="#/components/schemas/NodeSet" />
+      
+      ## waterpipe.create_task
+      
+      Create child task and send him to a process. 
+      
+      Use copy argument if you want take all fields from parent
+      
+      <SchemaDefinition schemaRef="#/components/schemas/NodeCreateTask" />
+      
+      ## waterpipe.goto
+      
+      Jump current task to another process. 
+      
+      When target process finished the task return by stack to back and continue execution where his stopped.
+      
+      <SchemaDefinition schemaRef="#/components/schemas/NodeGoto" />
+      
+      ## waterpipe.api_call
+      
+      Do HTTP request and set result to field. Supports only application/json
+      
+      <SchemaDefinition schemaRef="#/components/schemas/NodeApiCall" />
+
+x-tagGroups:
+  - name: General
+    tags:
+      - introduction
+      - node_types
+  - name: API
+    tags:
+      - api_process
+      - api_task
+  - name: Models
+    tags:
+      - process_model
+      - process_node_model
+      - task_model
+      - error_model
+
+components:
+  schemas:
+    Process:
+      $ref: './schemas/process.yml'
+    ProcessNode:
+      $ref: './schemas/process_node.yml'
+    Task:
+      $ref: './schemas/task.yml'
+    TaskStatus:
+      $ref: './schemas/task_status.yml'
+    CustomNode:
+      $ref: './schemas/custom_node.yml'
+    Error:
+      $ref: './schemas/error.yml'
+
+    NodeFinal:
+      $ref: './schemas/node_type/final.yml'
+    NodeCode:
+      $ref: './schemas/node_type/code.yml'
+    NodeCondition:
+      $ref: './schemas/node_type/condition.yml'
+    NodeSet:
+      $ref: './schemas/node_type/set.yml'
+    NodeCreateTask:
+      $ref: './schemas/node_type/create_task.yml'
+    NodeGoto:
+      $ref: './schemas/node_type/goto.yml'
+    NodeApiCall:
+      $ref: './schemas/node_type/api_call.yml'
+
+  requestBodies:
+    Process:
+      $ref: './requestBodies/process.yml'
+    Task:
+      $ref: './requestBodies/task.yml'
+    TaskStatus:
+      $ref: './requestBodies/task_status.yml'
+
+  responses:
+    ProcessPayload:
+      description: Process payload
+      content:
+        'application/json':
+          schema:
+            $ref: './schemas/process.yml'
+          examples:
+            default:
+              value: {
+                "id": "8c9390ba-7ec7-4ae7-ab56-4fc72bcf45df",
+                "name": "Test process",
+                "package": "",
+                "version": 1,
+                "nodes": [
+                  {
+                    "id": "be00b3d4-843d-45e6-ab86-267e336df878",
+                    "type": "waterpipe.start",
+                    "title": "",
+                    "args": null,
+                    "position": {
+                      "x": -5,
+                      "y": -1
+                    },
+                    "timeout": 0,
+                    "next": "5238e1b4-1a02-40a3-b570-5bf516b9bb9d"
+                  },
+                  {
+                    "id": "5238e1b4-1a02-40a3-b570-5bf516b9bb9d",
+                    "type": "waterpipe.final",
+                    "title": "success",
+                    "args": null,
+                    "position": {
+                      "x": -145,
+                      "y": 459
+                    },
+                    "timeout": 0,
+                    "next": "00000000-0000-0000-0000-000000000000"
+                  }
+                ]
+              }
+
+    TaskCreate:
+      description: Task creation result
+      content:
+        'application/json':
+          schema:
+            properties:
+              id:
+                type: string
+                format: UUIDv4
+                description: Id of created task
+              reference:
+                type: string
+                deprecated: true
+              status:
+                type: string
+                description: Status of task. Always "new"
+              error:
+                type: string
+                nullable: true
+                deprecated: true
+          examples:
+            default:
+              value: {
+                "id": "af30242f-9d53-4bd0-8559-0534d25bd67d",
+                "reference": "",
+                "status": "new",
+                "error": null
+              }
+
+    TaskStatus:
+      description: Status of task
+      content:
+        'application/json':
+          schema:
+            $ref: './schemas/task_status.yml'
+          examples:
+            'New Status':
+              description: "When status does not start processing"
+              value: {
+                "id": "59ce18af-2181-4a94-9e85-25bd470c1b8b",
+                "status": "new",
+                "position": {
+                  "process": "8012195e-7ff1-49e2-89a6-1cf56241e819",
+                  "version": 1,
+                  "node": "e672cd35-b1f4-48de-9ed3-509caefdc562",
+                },
+                "fields": {
+                  "foo": {
+                    "bar": "hello"
+                  },
+                  "bool": true,
+                  "number": 123,
+                  "array": ["hello", "world"]
+                },
+                "created_at": "2000-01-01T00:00:00.000",
+                "completed_at": "0001-01-01T00:00:00.000",
+                "delta_time": 0
+              }
+            'Progress status':
+              description: Task in progress
+              value: {
+                "id": "59ce18af-2181-4a94-9e85-25bd470c1b8b",
+                "status": "progress",
+                "position": {
+                  "process": "8012195e-7ff1-49e2-89a6-1cf56241e819",
+                  "version": 1,
+                  "node": "e672cd35-b1f4-48de-9ed3-509caefdc562",
+                },
+                "fields": {
+                  "foo": {
+                    "bar": "hello"
+                  },
+                  "bool": true,
+                  "number": 123,
+                  "array": [ "hello", "world" ]
+                },
+                "created_at": "2000-01-01T00:00:00.000",
+                "completed_at": "0001-01-01T00:00:00.000",
+                "delta_time": 0
+              }
+            'Complete status':
+              description: |
+                Task execution have done.
+                After this status task can't execute.
+              value: {
+                "id": "59ce18af-2181-4a94-9e85-25bd470c1b8b",
+                "status": "complete",
+                "position": {
+                  "process": "8012195e-7ff1-49e2-89a6-1cf56241e819",
+                  "version": 1,
+                  "node": "e672cd35-b1f4-48de-9ed3-509caefdc562",
+                },
+                "fields": {
+                  "foo": {
+                    "bar": "hello"
+                  },
+                  "bool": true,
+                  "number": 123,
+                  "array": [ "hello", "world" ]
+                },
+                "created_at": "2000-01-01T00:00:00.000",
+                "completed_at": "2000-01-01T00:00:01.000",
+                "delta_time": 1000
+              }
+
+    Error:
+      description: Error container
+      content:
+        'application/json':
+          schema:
+            $ref: './schemas/error.yml'
+          examples:
+            OK:
+              description: No error
+              value: {
+                "error": false,
+                "code": 0,
+                "reason": ""
+              }
+            General:
+              description: General error
+              value: {
+                "error": true,
+                "code": 1,
+                "reason": "General internal error"
+              }
+
+paths:
+  '/process':
+    post:
+      tags:
+        - api_process
+      description: Create version of process
+      requestBody:
+        $ref: '#/components/requestBodies/Process'
+      responses:
+        200:
+          $ref: '#/components/responses/ProcessPayload'
+        default:
+          $ref: '#/components/responses/Error'
+
+  '/process/{id}?v=###':
+    get:
+      tags:
+        - api_process
+      description: Get process
+      parameters:
+        - name: id
+          in: path
+          description: process's id
+          required: true
+          examples:
+            default:
+              summary: UUIDv4
+              value: 1567de60-c685-4ae3-ba0b-db537237d8fb
+        - name: v
+          in: query
+          description: process's version
+          required: true
+          examples:
+            default:
+              summary: version
+              value: 1
+      responses:
+        200:
+          $ref: '#/components/responses/ProcessPayload'
+        default:
+          $ref: '#/components/responses/Error'
+
+  '/task':
+    post:
+      tags:
+        - api_task
+      description: Create task
+      requestBody:
+        $ref: '#/components/requestBodies/Task'
+      responses:
+        200:
+          $ref: '#/components/responses/TaskCreate'
+        default:
+          $ref: '#/components/responses/Error'
+
+  '/task/status':
+    post:
+      tags:
+        - api_task
+      description: Check status of task
+      requestBody:
+        $ref: '#/components/requestBodies/TaskStatus'
+      responses:
+        200:
+          $ref: '#/components/responses/TaskStatus'
+        default:
+          $ref: '#/components/responses/Error'

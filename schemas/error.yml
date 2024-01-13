@@ -1,0 +1,9 @@
+type: object
+description: error container
+properties:
+  error:
+    type: boolean
+  code:
+    type: integer
+  reason:
+    type: string

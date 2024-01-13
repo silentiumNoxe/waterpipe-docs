@@ -1,0 +1,10 @@
+type: object
+properties:
+  path:
+    type: string
+    format: jsonpath
+    description: path to field
+    example: one.two.three
+  value:
+    description: Any value. Use $get(jsonpath) if you want take value from another task
+    example: {"foo": "bar"}

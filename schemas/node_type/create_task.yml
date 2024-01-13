@@ -1,0 +1,42 @@
+type: object
+required:
+  - payload
+  - process
+  - version
+  - node
+properties:
+  copy:
+    type: boolean
+    default: false
+    nullable: true
+    description: Copy all fields from parent to child
+    example: false
+  payload:
+    type: array
+    format: key-value
+    description: Payload which need to set into child task
+    items:
+      type: object
+      properties:
+        param:
+          type: string
+          format: jsonpath
+          description: Jsonpath of child field
+          example: one.two.three
+        value:
+          nullable: true
+          description: Any value. Use $get(jsonpath) if you want take field from parent
+          example: $get(some_fields.one)
+  process:
+    type: string
+    format: UUIDv4
+    description: Process id
+    example: 4eb356fd-3c1b-49d1-95ca-26f4267439ad
+  version:
+    type: integer
+    description: Process version
+    example: 5
+  node:
+    type: string
+    description: Id of start node in target process
+    example: a12846f8-09a2-45af-9f92-2d4110a12800

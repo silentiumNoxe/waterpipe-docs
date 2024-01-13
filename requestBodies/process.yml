@@ -1,0 +1,72 @@
+content:
+  'application/json':
+    schema:
+      $ref: '#/components/schemas/Process'
+    examples:
+      'New Process':
+        summary: Create new process
+        value: {
+          "name": "Test process",
+          "package": "",
+          "version": 1,
+          "nodes": [
+            {
+              "id": "be00b3d4-843d-45e6-ab86-267e336df878",
+              "type": "waterpipe.start",
+              "title": "",
+              "args": null,
+              "position": {
+                "x": -5,
+                "y": -1
+              },
+              "timeout": 0,
+              "next": "5238e1b4-1a02-40a3-b570-5bf516b9bb9d"
+            },
+            {
+              "id": "5238e1b4-1a02-40a3-b570-5bf516b9bb9d",
+              "type": "waterpipe.final",
+              "title": "success",
+              "args": null,
+              "position": {
+                "x": -145,
+                "y": 459
+              },
+              "timeout": 0,
+              "next": "00000000-0000-0000-0000-000000000000"
+            }
+          ]
+        }
+      'New Version':
+        summary: Create version for exist process
+        value: {
+          "id": "8c9390ba-7ec7-4ae7-ab56-4fc72bcf45df",
+          "name": "Test process",
+          "package": "",
+          "version": 1,
+          "nodes": [
+            {
+              "id": "be00b3d4-843d-45e6-ab86-267e336df878",
+              "type": "waterpipe.start",
+              "title": "",
+              "args": null,
+              "position": {
+                "x": -5,
+                "y": -1
+              },
+              "timeout": 0,
+              "next": "5238e1b4-1a02-40a3-b570-5bf516b9bb9d"
+            },
+            {
+              "id": "5238e1b4-1a02-40a3-b570-5bf516b9bb9d",
+              "type": "waterpipe.final",
+              "title": "success",
+              "args": null,
+              "position": {
+                "x": -145,
+                "y": 459
+              },
+              "timeout": 0,
+              "next": "00000000-0000-0000-0000-000000000000"
+            }
+          ]
+        }

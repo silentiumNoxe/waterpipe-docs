@@ -1,0 +1,27 @@
+type: object
+required:
+  - key
+  - operation
+  - route
+properties:
+  key:
+    type: string
+    description: jsonpath to task field
+    example: foo.bar.value
+  value:
+    description: any value. Use $get(jsonpath) if you want to take value from another field of task
+    example: $get(one.two.three)
+  operation:
+    type: string
+    description: JavaScript condition operator
+    enum: [">", "<", ">=", "<=", "==", "==="]
+  invert:
+    type: boolean
+    default: false
+    description: Invert compression value. (!false -> true)
+    example: false
+  route:
+    type: string
+    format: UUIDv4
+    description: Route to node if got true
+    example: 9e1de30f-2e61-46dd-b360-b5409effb9d3
