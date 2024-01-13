@@ -5,7 +5,7 @@ Work with pipes
 ---
 
 Create pipe
-.. code-block:: http
+.. code-block:: rst
 
 POST http://<domain>/pipe
 Content-Type: application/json
